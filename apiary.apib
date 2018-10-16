@@ -1,0 +1,245 @@
+FORMAT: 1A
+
+# Weather-api
+
+Weather-api is a simple API returning weather information in JSON based on input location.
+
+## Allowed HTTPs requests
+
+GET
+
+## Description Of Usual API Responses
+
+- `200 OK` – The request was successful.
+- `404 Not Found` – Location was not found.
+
+# Group /weather
+
+## Request parameters
+
+<table>
+    <tr>
+        <th> Parameter </th>
+        <th> Optional </th>
+        <th> Description </th>  
+        <th> Example </th>
+    </tr>
+    <tr>
+        <td>location</td>
+        <td><center>X</center></td>
+        <td>The location where you want to get the weather</td> 
+        <td><center>Prague</center></td> 
+    </tr>
+    <tr>
+        <td>units</td>
+        <td><center>✔</center></td>
+        <td>Units for temperature and others parameters (case sensitive)
+            <ul>
+                <li>f: Imperial units</li>
+                <li>c: Metric units</li>
+            </ul> 
+        </td> 
+        <td><center>f</center></td> 
+    </tr>
+</table>
+
+## Response elements
+
+<table>
+    <tr>
+        <th>Element</th>
+        <th>Description</th>  
+        <th>Attributes</th>  
+    </tr>
+    <tr>
+        <td>location</td>
+        <td>The location of this forecast.</td>
+        <td>
+            <ul>
+                <li>city: city name <code>string</code></li>
+                <li>region: state, territory, or region, if given <code>string</code></li>
+                <li>country: two-character country code. <code>string</code></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>wind</td>
+        <td>Forecast information about wind.</td>
+        <td>            
+            <ul>
+                <li>direction: wind direction, in degrees <code>integer</code></li>
+                <li>speed: wind speed <code>integer</code></li>
+                <li>speed_unit: mph or kph <code>string</code></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>atmosphere</td>
+        <td>Forecast information about current atmospheric pressure and humidity.</td>
+        <td>  
+            <ul>
+                <li>humidity: humidity, in percent <code>integer</code></li>
+                <li>pressure: barometric pressure <code>float</code></li>
+                <li>pressure_unit: in or mb <code>string</code></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>weather</td>
+        <td>The current weather conditions.</td>
+        <td>
+            <ul>
+                <li>date: the current date and time for which this forecast applies. The date is in RFC822 Section 5 format, for example "Wed, 30 Nov 2005 1:56 pm PST" <code>string</code></li>
+                <li>temp: the current temperature (integer)</li>
+                <li>temp_unit: F or C <code>string</code></li>
+                <li>text: a textual description of conditions, for example, "Partly Cloudy" <code>string</code></li>
+            </ul>
+        </td> 
+    </tr>
+    <tr>
+        <td>forecast</td>
+        <td>The weather forecast for a specific day. The item element contains multiple forecast elements for today and tomorrow.</td>
+        <td>
+            <ul>
+                <li>date: the date to which this forecast applies. The date is in "dd Mmm yyyy" format, for example "30 Nov 2005" <code>string</code></li>
+                <li>high: the forecasted high temperature for this day, in the units specified by the weather:temp_unit element <code>integer</code></li>
+                <li>low: the forecasted low temperature for this day, in the units specified by the weather:temp_unit element <code>integer</code></li>
+                <li>text: a textual description of conditions, for example, "Partly Cloudy" <code>string</code></li>
+            </ul>
+        </td> 
+    </tr>
+</table>
+
+## Example
+
+To get the forecast for Prague:
+
+domain.com/weather?location=Prague&units=f
+
+result is:
+
+```
+{
+  "location": {
+    "city": "Prague",
+    "region": " Prague",
+    "country": "Czech Republic"
+  },
+  "wind": { 
+    "direction": "200", 
+    "speed": "7",
+    "speed_unit": "mph" 
+  },
+  "atmosphere": {
+    "humidity": "59",
+    "pressure": "986.0",
+    "pressure_unit": "in"
+  },
+  "weather": {
+    "date": "Tue, 16 Oct 2018 10:00 AM CEST",
+    "temp": "56",
+    "temp_unit": "F",
+    "text": "Sunny"
+  },
+  "forecast": [
+    { 
+      "date": "16 Oct 2018", 
+      "high": "69", 
+      "low": "50", 
+      "text": "Sunny" 
+    },
+    {
+      "date": "17 Oct 2018",
+      "high": "67",
+      "low": "51",
+      "text": "Mostly Sunny"
+    },
+    {
+      "date": "18 Oct 2018",
+      "high": "65",
+      "low": "44",
+      "text": "Partly Cloudy"
+    },
+    {
+      "date": "19 Oct 2018",
+      "high": "61",
+      "low": "46",
+      "text": "Partly Cloudy"
+    },
+    {
+      "date": "20 Oct 2018",
+      "high": "57",
+      "low": "40",
+      "text": "Partly Cloudy"
+    },
+    {
+      "date": "21 Oct 2018",
+      "high": "58",
+      "low": "39",
+      "text": "Partly Cloudy"
+    },
+    {
+      "date": "22 Oct 2018",
+      "high": "62",
+      "low": "40",
+      "text": "Partly Cloudy"
+    },
+    {
+      "date": "23 Oct 2018",
+      "high": "54",
+      "low": "42",
+      "text": "Mostly Cloudy"
+    },
+    { 
+      "date": "24 Oct 2018", 
+      "high": "51", 
+      "low": "38", 
+      "text": "Rain" 
+    },
+    {
+      "date": "25 Oct 2018",
+      "high": "53",
+      "low": "40",
+      "text": "Mostly Cloudy"
+    }
+  ]
+}
+```
+
+# Group /full-info
+
+## Request parameters
+
+<table>
+    <tr>
+        <th> Parameter </th>
+        <th> Optional </th>
+        <th> Description </th>  
+        <th> Example </th>
+    </tr>
+    <tr>
+        <td>location</td>
+        <td><center>X</center></td>
+        <td>The location where you want to get the weather</td> 
+        <td><center>Prague</center></td> 
+    </tr>
+    <tr>
+        <td>units</td>
+        <td><center>✔</center></td>
+        <td>Units for temperature and others parameters (case sensitive)
+            <ul>
+                <li>f: Imperial units</li>
+                <li>c: Metric units</li>
+            </ul> 
+        </td> 
+        <td><center>f</center></td> 
+    </tr>
+</table>
+
+## Example
+
+To get full information about weather for Berlin
+
+`domain.com/full-info?location=Berlin&units=c`
+
+Explanation of elemenents can be found on: https://developer.yahoo.com/weather/documentation.html
